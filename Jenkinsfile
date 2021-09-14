@@ -19,7 +19,7 @@ node {
         sh "mvn clean install"
     }
 
-    stage("Image Prune"){
+    stage('Image Prune'){
         imagePrune(CONTAINER_NAME)
     }
 
