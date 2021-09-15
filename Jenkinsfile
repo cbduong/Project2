@@ -35,7 +35,7 @@ node {
         runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
     }
 
-}
+
 
 def imagePrune(containerName){
     try {
@@ -56,8 +56,16 @@ def pushToImage(containerName, tag){
     echo "Image push complete"
 }
 
-def runApp(containerName, tag, dockerHubUser, httpPort){
+def runApp_jenkins(containerName, tag, dockerHubUser, httpPort){
     sh "docker pull $dockerHubUser/$containerName"
     sh "docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag"
     echo "Application started on port: ${httpPort} (http)"
 }
+
+def runApp(containerName, tag, dockerHubUser, httpPort){
+    ssh -i keypair.pem ec2-user@<54.224.164.230>
+    sh "docker pull $dockerHubUser/$containerName"
+    sh "docker run -d --rm -p 80:8080 --name $containerName $dockerHubUser/$containerName:$tag"
+    echo "Application started on port: ${httpPort} (http)"
+}
+
