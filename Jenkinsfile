@@ -63,7 +63,7 @@ def runApp_jenkins(containerName, tag, dockerHubUser, httpPort){
 }
 
 def runApp(containerName, tag, dockerHubUser, httpPort){
-    ssh -i keypair.pem ec2-user@<54.224.164.230>
+    sh "ssh -i keypair.pem ec2-user@<54.234.139.212>"
     sh "docker pull $dockerHubUser/$containerName"
     sh "docker run -d --rm -p 80:8080 --name $containerName $dockerHubUser/$containerName:$tag"
     echo "Application started on port: ${httpPort} (http)"
